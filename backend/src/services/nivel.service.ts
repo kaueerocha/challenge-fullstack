@@ -1,7 +1,19 @@
 import { prisma } from '../prisma/client';
 
 export const getAllNivel = async () => {
-   return prisma.nivel.findMany();
+   const niveis = await prisma.nivel.findMany({
+      include: {
+         _count: {
+            select: { devs: true },
+         }
+      },
+   });
+
+   return niveis.map((n) => ({
+      id: n.id,
+      nivel: n.nivel,
+      countDevs: n._count.devs,
+   }))
 };
 
 export const createNivel = async (nivel: string) => {
