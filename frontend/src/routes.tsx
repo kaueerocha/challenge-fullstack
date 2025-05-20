@@ -8,52 +8,52 @@ import MainLayout from "./layouts/MainLayout";
 import NotFound from "./pages/NotFound";
 
 export const router = createBrowserRouter([
-   {
-      path: "/",
-      element: (
-         <MainLayout>
-            <Home/>
-         </MainLayout>
-      ),
-   },
-   {
-      path: "/dev",
-      element: (
-         <MainLayout>
-            <ListDev/>
-         </MainLayout>
-      ),
-   },
-   {
-      path: "/dev/create",
-      element: (
-         <MainLayout>
-            <CreateDev/>
-         </MainLayout>
-      ),
-   },
-   {
-      path: "/nivel",
-      element: (
-         <MainLayout>
-            <ListNivel/>
-         </MainLayout>
-      ),
-   },
-   {
-      path: "/nivel/create",
-      element: (
-         <MainLayout>
-            <CreateNivel/>
-         </MainLayout>
-      ),
-   },
-   {
-      path: "*",
-      element: (
-         <MainLayout>
-            <NotFound/>
-         </MainLayout>
-      ),
-   },
+  {
+    path: "/",
+    element: (
+      <MainLayout>
+        <Home />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/dev",
+    element: (
+      <MainLayout>
+        <ListDev />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/dev/create",
+    element: (
+      <MainLayout>
+        <CreateDev />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/nivel",
+    element: (
+      <MainLayout>
+        <ListNivel />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/nivel/create",
+    element: (
+      <MainLayout>
+        <CreateNivel />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "*",
+    element: (
+      <MainLayout>
+        <NotFound />
+      </MainLayout>
+    ),
+  },
 ]);

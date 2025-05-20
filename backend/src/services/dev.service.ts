@@ -1,16 +1,36 @@
 import { prisma } from '../prisma/client';
 
-export const getAllDev = async () => {
-   return prisma.desenvolvedor.findMany();
+export const getAllDev = async (nome?: string) => {
+   return prisma.desenvolvedor.findMany({
+      where: nome
+         ? {
+              nome: {
+                 contains: nome,
+                 mode: 'insensitive',
+              },
+           }
+         : undefined,
+      include: {
+         nivel: true,
+      },
+   });
 };
 
-export const createDev = async (
-  nivel_id: number,
-  nome: string,
-  sexo: string,
-  data_nascimento: string,
-  hobby: string,
-) => {
+type CreateDevInput = {
+   nivel_id: number;
+   nome: string;
+   sexo: string;
+   data_nascimento: string;
+   hobby: string;
+};
+
+export const createDev = async ({
+   nivel_id,
+   nome,
+   sexo,
+   data_nascimento,
+   hobby,
+}: CreateDevInput) => {
    const newDev = await prisma.desenvolvedor.create({
       data: {
          nivel_id,
@@ -21,17 +41,26 @@ export const createDev = async (
       },
    });
    return newDev;
-}
+};
 
-export const updateDev = async (
-   id: number,
-   nivel_id: number,
-   nome: string,
-   sexo: string,
-   data_nascimento: string,
-   hobby: string,
-) => {
-   const exist = await prisma.desenvolvedor.findUnique({ where: {id} });
+type UpdateDevParams = {
+   id: number;
+   nivel_id: number;
+   nome: string;
+   sexo: string;
+   data_nascimento: string;
+   hobby: string;
+};
+
+export const updateDev = async ({
+   id,
+   nivel_id,
+   nome,
+   sexo,
+   data_nascimento,
+   hobby,
+}: UpdateDevParams) => {
+   const exist = await prisma.desenvolvedor.findUnique({ where: { id } });
    if (!exist) return null;
 
    return prisma.desenvolvedor.update({
@@ -44,7 +73,7 @@ export const updateDev = async (
          data_nascimento: new Date(data_nascimento),
       },
    });
-}
+};
 
 export const deleteDev = async (id: number) => {
    const dev = await prisma.desenvolvedor.findUnique({ where: { id } });
@@ -54,4 +83,4 @@ export const deleteDev = async (id: number) => {
    }
 
    await prisma.desenvolvedor.delete({ where: { id } });
-}
+};

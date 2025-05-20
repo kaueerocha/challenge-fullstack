@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
-import { createDev, deleteDev, getAllDev, updateDev } from '../services/dev.service';
+import {
+   createDev,
+   deleteDev,
+   getAllDev,
+   updateDev,
+} from '../services/dev.service';
 
 export const listarDevs = async (req: Request, res: Response) => {
    try {
-      const devs = await getAllDev();
+      const nome = req.query.nome?.toString();
 
-      if (devs.length === 0) {
-         res.status(404).json({ error: 'Nenhum desenvolvedor cadastrado' });
-         return;
-      }
+      const devs = await getAllDev(nome);
 
       res.status(200).json(devs);
-      return;
    } catch (error) {
       res.status(500).json({ error: 'Erro ao buscar desenvolvedores' });
-      return;
    }
 };
 
@@ -27,10 +27,20 @@ export const criarDev = async (req: Request, res: Response) => {
    }
 
    try {
-      const createdDev = await createDev(nivel_id, nome, sexo, data_nascimento, hobby);
+      const createdDev = await createDev({
+         nivel_id,
+         nome,
+         sexo,
+         data_nascimento,
+         hobby,
+      });
       res.status(201).json(createdDev);
    } catch (error) {
-      res.status(400).json({ error: 'Erro ao criar desenvolvedor', details: error });
+      console.error(error);
+      res.status(400).json({
+         error: 'Erro ao criar desenvolvedor',
+         details: error,
+      });
    }
 };
 
@@ -44,21 +54,21 @@ export const editarDev = async (req: Request, res: Response) => {
    }
 
    try {
-      const dev = await updateDev(Number(id), 
-         nome,
-         hobby,
+      const dev = await updateDev({
+         id: Number(id),
          nivel_id,
+         nome,
          sexo,
          data_nascimento,
-      )
+         hobby,
+      });
       res.status(200).json(dev);
       return;
    } catch (error: any) {
       res.status(400).json({ error: error.message });
       return;
    }
-
-}
+};
 
 export const deletarDev = async (req: Request, res: Response) => {
    const { id } = req.params;
@@ -70,5 +80,4 @@ export const deletarDev = async (req: Request, res: Response) => {
    } catch (error: any) {
       res.status(400).json({ error: error.message });
    }
-
-}
+};

@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { listarNiveis, criarNivel, editarNivel, deletarNivel } from '../controllers/nivel.controller';
+import {
+   listarNiveis,
+   criarNivel,
+   editarNivel,
+   deletarNivel,
+} from '../controllers/nivel.controller';
 
 const router = Router();
 

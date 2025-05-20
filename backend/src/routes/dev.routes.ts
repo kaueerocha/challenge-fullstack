@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { criarDev, editarDev, listarDevs, deletarDev } from '../controllers/dev.controller';
+import {
+   criarDev,
+   editarDev,
+   listarDevs,
+   deletarDev,
+} from '../controllers/dev.controller';
 
 const router = Router();
 

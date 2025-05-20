@@ -13,5 +13,5 @@ app.use('/api/nivel', nivelRoutes);
 app.use('/api/desenvolvedor', devRoutes);
 
 app.listen(port, () => {
-  console.log(`Servidor rodando na puertas ${port}`);
+   console.log(`Servidor rodando na porta ${port}`);
 });

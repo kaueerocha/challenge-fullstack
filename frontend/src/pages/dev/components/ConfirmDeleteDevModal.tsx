@@ -1,17 +1,17 @@
 import { useState } from "react"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
-import { deleteNivel } from "@/services/nivelService"
 import { Button } from "@/components/ui/button"
+import { deleteDev } from "@/services/devService"
 
-export default function ConfirmDeleteNivelModal({
-    nivelId,
+export default function ConfirmDeleteDevModal({
+    devId,
     onClose,
-    fetchNiveis,
+    fetchDevs,
 }: {
-    nivelId: Number
+    devId: Number
     onClose: () => void
-    fetchNiveis: () => void
+    fetchDevs: () => void
 }) {
    const [isLoading, setIsLoading] = useState(false)
 
@@ -19,20 +19,14 @@ export default function ConfirmDeleteNivelModal({
       setIsLoading(true)
       toast.loading("Deletando...", { id: "loading" })
 
-      deleteNivel(id)
+      deleteDev(id)
          .then(() => {
-            toast.success("Nível deletado com sucesso!", { id: "loading", duration: 3000 })
-            fetchNiveis()
+            toast.success("Desenvolvedor deletado com sucesso!", { id: "loading", duration: 3000 })
+            fetchDevs()
             onClose()
          })
-         .catch((error) => {
-            const errorMessage =
-               error instanceof Error
-                  ? error.message
-                  : error?.error || 'Erro ao deletar nível.'
-
-            toast.error(errorMessage, { id: "loading" })
-            onClose()
+         .catch(() => {
+            toast.error("Erro ao deletar desenvolvedor.", { id: "loading" })
          })
          .finally(() => {
             setIsLoading(false)
@@ -42,7 +36,7 @@ export default function ConfirmDeleteNivelModal({
    return (
       <motion.div className="fixed inset-0 bg-black/50 backdrop-blur-sm text-foreground flex items-center justify-center z-50" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
          <div className="bg-background p-6 rounded shadow-md text-center space-y-4">
-               <p>Tem certeza que deseja excluir esse nível?</p>
+               <p>Tem certeza que deseja excluir esse desenvolvedor?</p>
                <div className="flex justify-center gap-4">
                   <Button
                      onClick={onClose}
@@ -53,7 +47,7 @@ export default function ConfirmDeleteNivelModal({
                      Cancelar
                   </Button>
                   <Button 
-                     onClick={() => handleConfirmDelete(nivelId)}
+                     onClick={() => handleConfirmDelete(devId)}
                      disabled={isLoading}
                      variant={"secondary"}
                      className="px-4 py-2 bg-red-500 border rounded hover:bg-red-600"
